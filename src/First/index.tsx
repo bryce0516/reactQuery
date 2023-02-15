@@ -1,6 +1,8 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import React from "react";
+import useInterval from "../util/useInterval";
+import MemoCount from "./MemoCount";
 
 type Props = {};
 
@@ -27,18 +29,36 @@ function usePosts() {
       );
       return data;
     },
-    staleTime: 10 * (60 * 1000), // 10 mins
-    cacheTime: 15 * (60 * 1000), // 15 mins
+    // staleTime: 10 * (60 * 1000), // 10 min
+    staleTime: 3 * 1000, // 3 sec
+    // cacheTime: 15 * (60 * 1000), // 15 min
+    cacheTime: 10 * 1000, // 10 sec
   });
 }
 
 function Posts({ setPostId }: any) {
   const queryClient = useQueryClient();
   const { status, data, error, isFetching }: any = usePosts();
-
+  const [count, setCount] = React.useState(0);
+  const [start, setStart] = React.useState(false);
+  useInterval(
+    () => {
+      setCount((prev) => prev + 1);
+    },
+    1000,
+    start
+  );
+  React.useEffect(() => {
+    setStart(true)
+  }, [])
   return (
     <div>
-      <h1>Posts</h1>
+        <MemoCount count={count} setStart={setStart}/>
+
+      <div style={{ flexDirection: "row" }}>
+        <h1>Posts</h1>
+      </div>
+
       <div>
         {status === "loading" ? (
           "Loading..."
