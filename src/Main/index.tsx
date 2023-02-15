@@ -6,7 +6,7 @@ type Props = {}
 
 const Main = (props: Props) => {
   const queryClient = useQueryClient()
-  const [intervalMs, setIntervalMs] = React.useState(1000)
+  const [intervalMs, setIntervalMs] = React.useState(1000 * 60 * 60)
   const [value, setValue] = React.useState('')
 
   const { status, data, error, isFetching }: any = useQuery({
@@ -16,6 +16,8 @@ const Main = (props: Props) => {
       return res.data
     },
     // Refetch the data every second
+    staleTime: 10 * (60 * 1000),
+    cacheTime:10 * (60 * 1000),
     refetchInterval: intervalMs,
   })
 console.log("this is data", data)
@@ -65,8 +67,8 @@ console.log("this is data", data)
     </label>
     <h2>post List</h2>
     <ul>
-      {data.map((item :any) => (
-        <li key={item}>{item.title}</li>
+      {data.map((item :any, index: number) => (
+        <li key={index}>{item.title}</li>
       ))}
     </ul>
 

@@ -14,7 +14,25 @@ import {
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 function App() {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient(
+    {
+      defaultOptions: {
+        queries: {
+          staleTime: 0,
+          cacheTime: 0
+        },
+      },
+    }   
+    // {
+    //   defaultOptions: {
+    //     queries: {
+    //       cacheTime: 1000 * 60,
+    //       staleTime: 1000 * 20,
+    //       suspense: true,
+    //     },
+    //   },
+    // }
+  );
 
   return (
     <QueryClientProvider client={queryClient}>
