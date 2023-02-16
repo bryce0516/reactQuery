@@ -12,6 +12,8 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import Second from "./Second";
+import Third from "./Third";
 
 function App() {
   const queryClient = new QueryClient(
@@ -40,6 +42,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/1" element={<First />} />
+          <Route path="/2" element={<Second />} />
+          <Route path="/3" element={<Third />} />
         </Routes>
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen />
